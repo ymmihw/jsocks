@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="1 seconds">
+ <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+ <property name="COLORED_LOG_PATTERN"
+  value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+ <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%15.15t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+ <property name="LOG_HOME" value="${log.home:-logs}" />
+ <appender name="STDOUT1" class="ch.qos.logback.core.helpers.NOPAppender">
+ </appender>
+ <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+  <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+   <pattern>${COLORED_LOG_PATTERN}</pattern>
+   <charset>utf8</charset>
+  </encoder>
+ </appender>
+ <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+  <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+   <FileNamePattern>${LOG_HOME}/all.%d{yyyy-MM-dd}.%i.log.gz
+   </FileNamePattern>
+   <maxFileSize>30MB</maxFileSize>
+   <maxHistory>60</maxHistory>
+   <totalSizeCap>1GB</totalSizeCap>
+  </rollingPolicy>
+  <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+   <pattern>${LOG_PATTERN}</pattern>
+   <charset>utf8</charset>
+  </encoder>
+ </appender>
+ <logger name="org.springframework" level="WARN" />
+ <logger name="org.hibernate" level="WARN" />
+ <logger name="com.zaxxer" level="WARN" />
+ <logger name="org.jboss" level="WARN" />
+ <logger name="org.apache" level="WARN" />
+ <logger name="springfox" level="WARN" />
+ <root level="DEBUG">
+  <appender-ref ref="STDOUT" />
+  <appender-ref ref="File" />
+ </root>
+</configuration>
